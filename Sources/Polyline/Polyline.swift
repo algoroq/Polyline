@@ -302,11 +302,11 @@ private func decodeSingleCoordinate(byteArray: UnsafePointer<Int8>, length: Int,
     var component: Int32 = 0
     
     repeat {
-        let byte: UInt8 = byteArray[position]
-        if byte > 2^8-1 {
+        let byte: Int8 = byteArray[position]
+        if byte < -65 {
             throw PolylineError.singleCoordinateDecodingError
         }
-        currentChar = Int8(byte) - 63
+        currentChar = byte - 63
         component = Int32(currentChar & bitMask)
         coordinate |= (component << (5*componentCounter))
         position += 1
